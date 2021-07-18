@@ -1,0 +1,53 @@
+@mixin styleText($fs,$fw,$color) {
+    font-size:$fs ;
+    font-weight:$fw ;
+    color:$color ;
+}
+
+@mixin styleButton($bg,$pd-y,$pd-x,$bd, $radius,$fs,$fc,$fw,$bc) {
+    background-color: $bg;
+    padding: $pd-y $pd-x;
+    border: $bd;
+    border-style: solid;
+    border-color: $bc;
+    border-radius: $radius;
+    font-size: $fs;
+    color: $fc;
+    font-weight: $fw;
+}
+
+@mixin styleInput($bg,$pd-y,$pd-x,$radius,$fs,$fw,$fc,$bd,$bd-c){
+    background-color: $bg;
+    padding: $pd-y $pd-x;
+    border: $bd;
+    border-style: solid;
+    border-color: $bd-c;
+    border-radius: $radius;
+    font-size: $fs;
+    color: $fc;
+    font-weight: $fw;
+}
+
+
+@mixin maxResponsive($screen) {   
+    @if(map-has-key($map:$breakpoints , $key:$screen )){      
+        $value: map-get($map:$breakpoints , $key:$screen );       
+        @media screen and (max-width:$value){
+            @content;
+        }
+    }
+    @else{       
+        @warn "màn hình chưa khai báo";
+    }
+}
+@mixin minResponsive($screen) {   
+    @if(map-has-key($map:$breakpoints , $key:$screen )){      
+        $value: map-get($map:$breakpoints , $key:$screen );       
+        @media screen and (min-width:$value){
+            @content;
+        }
+    }
+    @else{       
+        @warn "màn hình chưa khai báo";
+    }
+}

@@ -1,0 +1,332 @@
+// CONTENT PAGE
+.contentPage {
+  width: 100%;
+  .imgBackground {
+    width: 100%;
+  }
+}
+
+// ABOUT
+.about {
+  width: $wid-1;
+  margin: auto;
+  padding: 70px 0 100px;
+  position: relative;
+  .bg1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-position: -10px -20px;
+  }
+  .about__temp {
+    width: $wid-2;
+    margin: auto;
+    .about__contentItem {
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+  .text__title {
+    @include styleText($fs-3, $fw-3, $color-main-2);
+    margin-bottom: 0.5rem;
+  }
+  .text__content {
+    @include styleText($fs-4, $fw-4, $color-main-1);
+  }
+  .bg2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 250px;
+  }
+}
+
+@include maxResponsive("mid-large") {
+  .about__content {
+    padding: $pd-1 0;
+  }
+  .about {
+    padding: 50px 0 0px;
+    .bg2 {
+      height: 125px;
+    }
+    .text__content {
+      font-size: 3.15rem;
+    }
+  }
+}
+
+@include maxResponsive("small-down") {
+  .about {
+    .bg2 {
+      height: 68px;
+    }
+    .text__content {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+// TEACHER EXPERT
+.teacher {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  background-color: $color-main-4;
+  padding-bottom: 0;
+  .teacher__main {
+    width: $wid-2;
+    margin: auto;
+    padding: 0;
+    padding-top: 0;
+    .teacher__content {
+      padding: 30px 0 0;
+    }
+    .teacher__contentItem {
+      padding: 0 20px 40px;
+      z-index: 3;
+      .contentItem__content {
+        background-color: $color-main-3;
+        padding: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 0 0 #00000026;
+        transition: box-shadow 0.5s;
+        &:hover {
+          box-shadow: 0 30px 30px -10px #00000026;
+        }
+        .contentItem__img {
+          width: 100%;
+          z-index: -1;
+          overflow: hidden;
+          img {
+            max-width: 100%;
+            transform: scale3d(1.01, 1.01, 1.01);
+            transition: transform 0.65s;
+            &:hover {
+              transform: scale3d(1.1, 1.1, 1.1);
+            }
+          }
+        }
+        .contentItem__text {
+          padding: 30px 20px 10px;
+          line-height: 1.2;
+          letter-spacing: 1.3px;
+          .info__nation {
+            @include styleText($fs-2, $fw-3, $color-main-2);
+            margin-bottom: 0.7em;
+          }
+          .info__name {
+            @include styleText($fs-6, $fw-4, $color-main-1);
+          }
+          .contentItem__desc {
+            line-height: 1.8em;
+            @include styleText($fs-1, $fw-2, $color-main-1);
+          }
+        }
+      }
+    }
+  }
+  .bg3 {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    z-index: 2;
+  }
+  .teacher__blank {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    background-color: $color-main-3;
+    height: 50px;
+    width: 100%;
+  }
+}
+
+/*
+    COURSE
+*/
+
+.course {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  padding-bottom: 15px;
+  i {
+    @include styleText($fs-1, $fw-1, $color-main-2);
+    display: block;
+  }
+  .course__main {
+    position: relative;
+    width: $wid-5;
+    margin: auto;
+    padding: 35px 25px;
+    z-index: 3;
+    .contentItem__img {
+      img {
+        width: 100%;
+      }
+    }
+    .course__form {
+      padding: 0 40px;
+    }
+    .contentItem__form {
+      background-color: $color-main-3;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 30px 30px -10px #00000046;
+      padding: 20px 25px;
+      .form__title {
+        @include styleText($fs-7, $fw-4, $color-main-1);
+      }
+      .form__spacing {
+        height: 50px;
+      }
+      .info__item {
+        position: relative;
+        input {
+          @include styleInput(
+            transparent,
+            $pd-5,
+            $pd-5,
+            50px,
+            $fs-8,
+            $fw-2,
+            $color-main-1,
+            1px,
+            #0000003b
+          );
+          padding-left: 3.5em;
+          width: 100%;
+          height: 3.7em;
+          z-index: 2;
+        }
+        i {
+          position: absolute;
+          top: 0.7em;
+          left: 2.2em;
+          line-height: 1;
+        }
+      }
+      .form__item {
+        position: relative;
+        padding-bottom: 15px;
+        select {
+          @include styleInput(
+            transparent,
+            $pd-5,
+            $pd-5,
+            50px,
+            $fs-8,
+            $fw-2,
+            $color-main-1,
+            1px,
+            #0000003b
+          );
+          -webkit-appearance: none;
+          width: 100%;
+          height: 3.7em;
+          padding-left: 3.5em;
+          z-index: 2;
+        }
+        textarea {
+          @include styleInput(
+            transparent,
+            $pd-5,
+            $pd-5,
+            20px,
+            $fs-8,
+            $fw-2,
+            $color-main-1,
+            1px,
+            #0000003b
+          );
+          -webkit-appearance: none;
+          height: 90px;
+          padding-left: 3.5em;
+          z-index: 2;
+        }
+      }
+      .form__message,
+      .form__language {
+        i {
+          position: absolute;
+          top: 0.7em;
+          left: 1.2em;
+          line-height: 1;
+        }
+      }
+      .course__button {
+        display: block;
+        max-width: 150px;
+        margin-top: 2em;
+        text-align: center;
+        @include styleButton(
+          $color-main-2,
+          $pd-2,
+          $pd-3,
+          1px,
+          50px,
+          $fs-12,
+          $color-main-3,
+          $fw-3,
+          $color-main-2
+        );
+        box-shadow: 0 0 0 3em $color-main-2 inset;
+        transition: box-shadow 0.3s, background-color 0.5s, color 0.3s;
+        &:hover {
+          text-decoration: none;
+          background-color: transparent;
+          box-shadow: 0 0 0 0.08em $color-main-2 inset;
+          color: $color-main-2;
+        }
+      }
+    }
+  }
+  .bg4 {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    z-index: 0;
+  }
+}
+
+@include maxResponsive("mid-large") {
+  .course {
+    .course__main {
+      width: $wid-2;
+      .course__form {
+        padding: 0 30px;
+        .info__item {
+          i {
+            top: 0.9em;
+          }
+        }
+        .form__message,
+        .form__language {
+          i {
+            top: 0.9em;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include maxResponsive("medium") {
+  .course {
+    .course__main {
+      .info__item:first-child {
+        padding-bottom: 15px;
+      }
+      .contentItem__form {
+        .course__Btn {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}

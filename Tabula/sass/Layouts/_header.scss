@@ -1,0 +1,249 @@
+.bodyPage {
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  position: absolute;
+  height: 80px;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  #navContent {
+    width: $wid-2;
+    margin: auto;
+    padding: 0;
+  }
+  .navbar-brand {
+    img {
+      height: 80px;
+      padding: 0;
+    }
+  }
+  #navContent .collapse {
+    justify-content: flex-end;
+    .navbar__submenu {
+      display: none;
+    }
+    .nav-item {
+      padding-right: $pd-1;
+      a {
+        @include styleText($fs-12, $fw-3, $color-main-1);
+        line-height: 80px;
+        padding: 0;
+        position: relative;
+        &::after {
+          content: "";
+          width: 10px;
+          height: 10px;
+          background-color: $color-main-2;
+          border-radius: 50%;
+          opacity: 0;
+          position: absolute;
+          bottom: -5px;
+          margin-left: -4px;
+          left: 50%;
+          transition: transform 0.4s, opacity 0.4s;
+        }
+      }
+      &:hover {
+        a {
+          &::after {
+            opacity: 1;
+            transform: scale(1.5);
+          }
+          color: $color-main-2;
+        }
+      }
+    }
+    .active {
+      a {
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+    .navbar-contact {
+      .button__phone {
+        @include styleButton(
+          $color-main-2,
+          $pd-2,
+          $pd-3,
+          1px,
+          50px,
+          $fs-12,
+          $color-main-3,
+          $fw-2,
+          $color-main-2
+        );
+        box-shadow: 0 0 0 3em $color-main-2 inset;
+        transition: box-shadow 0.3s, background-color 0.5s, color 0.3s;
+        i {
+          padding-right: 0.5rem;
+          transition: color 0.3s;
+        }
+        &:hover {
+          text-decoration: none;
+          background-color: transparent;
+          box-shadow: 0 0 0 0.08em $color-main-2 inset;
+          color: $color-main-2;
+          // transition: box-shadow .3s, color .3s;
+        }
+      }
+      a {
+        color: $color-main-1;
+        margin-left: $mg-1;
+        transition: color 0.3s;
+        &:hover {
+          i {
+            color: $color-main-2;
+          }
+        }
+      }
+    }
+  }
+}
+
+.headerScroll {
+  position: fixed;
+  opacity: 0;
+  top: -100%;
+  z-index: 9999;
+  height: 50px;
+  background-color: $color-main-3;
+  transition: top 0.5s;
+  .navbar-brand {
+    display: none;
+  }
+}
+
+.showMenu {
+  opacity: 1;
+  top: 0;
+  box-shadow: 0 0 10px 0 #cccccc8c;
+  #navContent .collapse {
+    justify-content: flex-end;
+    .nav-item {
+      padding-right: $pd-1;
+      a {
+        @include styleText($fs-12, $fw-3, $color-main-1);
+        line-height: 50px;
+        padding: 0;
+        position: relative;
+      }
+    }
+    .navbar-contact {
+      .button__phone {
+        @include styleButton(
+          $color-main-2,
+          $pd-6,
+          $pd-6,
+          1px,
+          50px,
+          $fs-12,
+          $color-main-3,
+          $fw-2,
+          $color-main-2
+        );
+        box-shadow: 0 0 0 3em $color-main-2 inset;
+      }
+    }
+  }
+}
+
+@include maxResponsive("mid-large") {
+  #pageContent {
+    transition: transform 0.3s;
+  }
+  #navContent {
+    button {
+      .fa-times {
+        display: none;
+      }
+    }
+  }
+  header,
+  .show,
+  .headerScroll {
+    background-color: $color-main-3;
+    height: 50px;
+    #navContent {
+      width: $wid-1;
+      margin: auto;
+      padding: 0 $pd-8;
+      justify-content: flex-start;
+      button {
+        margin-right: $mg-5;
+        i {
+          font-size: 30px;
+          vertical-align: middle;
+        }
+      }
+      .navbar-brand {
+        display: block;
+        img {
+          height: 48px;
+        }
+      }
+      .navbar-brandHiden {
+        display: none;
+      }
+      #navbarSupportedContent {
+        position: absolute;
+        top: 0px;
+        left: -320px;
+        width: 320px;
+        height: 100vh;
+        padding-bottom: 30px;
+        box-shadow: 2px 0 5px #0000001a;
+        overflow-y: scroll;
+        text-align: center;
+        .nav-item {
+          padding: 0;
+        }
+        .nav-link {
+          line-height: 1;
+          padding: 20px 0;
+          &::after {
+            display: none;
+          }
+        }
+        .navbar-contact {
+          flex-direction: column;
+          width: 100%;
+          margin: auto;
+          .button__phone {
+            margin: 20px 0 5px;
+          }
+        }
+      }
+    }
+  }
+  .transfo {
+    transform: translateX(320px);
+    #navContent .collapse {
+      justify-content: flex-end;
+      .navbar__submenu {
+        display: block;
+      }
+    }
+    #navContent {
+      button {
+        .fa-times {
+          display: block;
+          align-items: center;
+        }
+        .fa-bars {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@include maxResponsive("smallest") {
+  .transfo {
+    transform: translateX(260px);
+  }
+}
