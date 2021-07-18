@@ -30,7 +30,7 @@ function renderData(arrUser) {
                 <td>${user.loaiND}</td>
                 <td>
                     <button class="btn btn-primary" onclick = "loadDataByID('${user.id}')" >Sửa</button>
-                    <button class="btn btn-danger"  onclick = "deleteUserByID('${user.id}')">Xóa</button>
+                    <button data-toggle="modal" data-target="#modal-confirm" class="btn btn-danger" onclick = "deleteUserByID('${user.id}')">Xóa</button>
                 </td>
             </tr>
         `;
@@ -58,6 +58,7 @@ getData();
  */
 getEl('#btnThemNguoiDung').addEventListener('click', function() {
     var modalFooter = getEl('.modal-footer');
+    getEl('#formUser').reset();
     modalFooter.innerHTML =
         `
         <button id = "btnThemMoi" class = "btn btn-primary" onclick = "addUser()">Thêm mới</button>
@@ -93,17 +94,21 @@ function addUser() {
  * Xóa data theo tài khoản
  */
 function deleteUserByID(id) {
-    userService.deleteUser(id)
-        .then(function(result) {
-            getData();
-            console.log(id);
-            console.log('Xóa thành công id: ' + id);
-        }).catch(function(err) {
-            console.log('Xóa thất bai' + err);
-            console.log(id);
-        });
-
+    getEl('#del-user').addEventListener('click', function() {
+        userService.deleteUser(id)
+            .then(function(result) {
+                console.log(id);
+                console.log('Xóa thành công id: ' + id);
+                getEl('#modal-confirm .close').click();
+                getData();
+            }).catch(function(err) {
+                console.log('Xóa thất bai: ' + err);
+                console.log(id);
+            });
+    });
 };
+
+
 
 /**
  * Sửa data 
