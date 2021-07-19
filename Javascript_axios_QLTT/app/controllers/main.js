@@ -1,4 +1,6 @@
 var userService = new UserService();
+var userData = '';
+var validator = new Validation();
 
 /**
  * Set local storeage
@@ -21,21 +23,39 @@ function renderData(arrUser) {
     arrUser.map(function(user, index) {
         content += `
          <tr>
-                <td>${index + 1}</td>
+                <td >${index + 1}</td>
                 <td>${user.taiKhoan}</td>
-                <td>${user.matKhau}</td>
+                <td class = "px-2">
+                    <span class="row m-auto text-center" >
+                        <input class="inputPass col-8" type ="password" readonly value = "${user.matKhau}">
+                        <span class="col-4 show" onclick="showPassWord(${index})"><i class="fa fa-eye"></i></span>
+                        <span class="col-4 hide" onclick="hidePassWord(${index})" style="display:none;"><i class="fa fa-eye-slash"></i></span>
+                    </span>
+                </td>
                 <td>${user.hoTen}</td>
                 <td>${user.email}</td>
                 <td>${user.ngonNgu}</td>
                 <td>${user.loaiND}</td>
-                <td>
+                <td >
                     <button class="btn btn-primary" onclick = "loadDataByID('${user.id}')" >Sửa</button>
-                    <button data-toggle="modal" data-target="#modal-confirm" class="btn btn-danger" onclick = "deleteUserByID('${user.id}')">Xóa</button>
+                    <button class="btn btn-danger"  data-toggle="modal" data-target="#modal-confirm" onclick = "deleteUserByID('${user.id}')">Xóa</button>
                 </td>
             </tr>
         `;
     });
     getEl('#tblDanhSachNguoiDung').innerHTML = content;
+}
+
+function showPassWord(id) {
+    document.getElementsByClassName('inputPass')[id].type = 'text';
+    document.getElementsByClassName('show')[id].style.display = 'none';
+    document.getElementsByClassName('hide')[id].style.display = 'block';
+}
+
+function hidePassWord(id) {
+    document.getElementsByClassName('inputPass')[id].type = 'password';
+    document.getElementsByClassName('show')[id].style.display = 'block';
+    document.getElementsByClassName('hide')[id].style.display = 'none';
 }
 
 function getData() {
@@ -45,6 +65,7 @@ function getData() {
             console.log(result.data);
             setLocalStorage(result.data);
             renderData(result.data);
+            userData = result.data;
         })
         .catch(function(err) {
             console.log('Lấy dữ liệu thất bại: ' + err);
@@ -61,6 +82,7 @@ getEl('#btnThemNguoiDung').addEventListener('click', function() {
     getEl('#formUser').reset();
     modalFooter.innerHTML =
         `
+                         
         <button id = "btnThemMoi" class = "btn btn-primary" onclick = "addUser()">Thêm mới</button>
         <button class = "btn btn-danger" data-dismiss="modal">Trờ về</button>
         `;
@@ -77,17 +99,22 @@ function addUser() {
     var describe = getEl('#MoTa').value;
 
     var user = new Users(account, name, passWord, email, typeUser, language, describe, picture);
+    if (!checkValidation(validator, userData)) {
+        return;
+    } else {
+        userService.addUser(user)
+            .then(function(result) {
+                getData();
+                setLocalStorage(user.data);
+                console.log('Thêm dữ liệu thành công');
+                getEl('#myModal .close').click();
+            })
+            .catch(function(err) {
+                console.log('Thêm dữ liệu thất bại: ' + err);
+            });
 
-    userService.addUser(user)
-        .then(function(result) {
-            getData();
-            setLocalStorage(user.data);
-            console.log('Thêm dữ liệu thành công');
-            getEl('#myModal .close').click();
-        })
-        .catch(function(err) {
-            console.log('Thêm dữ liệu thất bại: ' + err);
-        });
+    }
+
 }
 
 /**
@@ -161,3 +188,58 @@ function updateDataByID(id) {
             console.log('Cập nhật thất bại: ' + err);
         });
 }
+
+
+/**
+ * Check validation
+ */
+function checkValidation(valid, data) {
+    var account = getEl('#TaiKhoan').value;
+    var name = getEl('#HoTen').value;
+    var passWord = getEl('#MatKhau').value;
+    var email = getEl('#Email').value;
+    var picture = getEl('#HinhAnh').value;
+    var typeUser = getEl('#loaiNguoiDung').value;
+    var language = getEl('#loaiNgonNgu').value;
+    var describe = getEl('#MoTa').value;
+    let isVal = true;
+    isVal &= valid.checkBlank(account, '#noteAcc') && valid.checkAccount(data, getEl('#TaiKhoan').value, '#noteAcc');
+    isVal &= valid.checkBlank(getEl('#MatKhau').value, '#notePass') && valid.checkPass(getEl('#MatKhau').value, '#notePass');
+    isVal &= valid.checkBlank(getEl('#HoTen').value, '#noteName') && valid.checkName(getEl('#HoTen').value, '#noteName');
+    isVal &= valid.checkBlank(getEl('#Email').value, '#noteEmail') && valid.checkEmail(getEl('#Email').value, '#noteEmail');
+    isVal &= valid.checkBlank(getEl('#HinhAnh').value, '#noteImage');
+    isVal &= valid.checkSelect(getEl('#loaiNguoiDung').value, '#noteTypeUser');
+    isVal &= valid.checkSelect(getEl('#loaiNgonNgu').value, '#noteLanguage');
+    isVal &= valid.checkBlank(getEl('#MoTa').value, '#noteDescribe') && valid.checkLenghtCharacter(getEl('#MoTa').value, 60, '#noteDescribe');
+
+    return isVal;
+}
+
+
+console.log(userData)
+
+function eventKeyUpInput() {
+    getEl('#TaiKhoan').addEventListener('input', () => {
+        validator.checkBlank(getEl('#TaiKhoan').value, '#noteAcc') &&
+            validator.checkAccount(userData, getEl('#TaiKhoan').value, '#noteAcc');
+    });
+    getEl('#MatKhau').addEventListener('input', () => {
+        validator.checkBlank(getEl('#MatKhau').value, '#notePass') && validator.checkPass(getEl('#MatKhau').value, '#notePass');
+    });
+    getEl('#HoTen').addEventListener('input', () => {
+        validator.checkBlank(getEl('#HoTen').value, '#noteName') && validator.checkName(getEl('#HoTen').value, '#noteName');
+    });
+    getEl('#Email').addEventListener('input', () => {
+        validator.checkBlank(getEl('#Email').value, '#noteEmail') && validator.checkEmail(getEl('#Email').value, '#noteEmail');
+    });
+    getEl('#MoTa').addEventListener('focus', () => {
+        getEl('#MoTa').addEventListener('input', () => {
+            getEl('#noteDescribe').innerHTML = "Số ký tự không vượt quá 60";
+        });
+    });
+
+    getEl('#MoTa').addEventListener('change', () => {
+        validator.checkBlank(getEl('#MoTa').value, '#noteDescribe') && validator.checkLenghtCharacter(getEl('#MoTa').value, 60, '#noteDescribe');
+    });
+}
+eventKeyUpInput();

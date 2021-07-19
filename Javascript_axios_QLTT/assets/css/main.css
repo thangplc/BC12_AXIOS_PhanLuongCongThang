@@ -1,0 +1,66 @@
+.noteText {
+    color: #ff2222;
+}
+
+.form-group label {
+    font-size: 18px;
+    color: #0e24ee;
+    font-weight: 600;
+}
+
+.form-control {
+    border: 1px solid #0e24ee;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    border: 2px solid #8113b4;
+}
+
+.inputPass {
+    border: none;
+    cursor: default;
+}
+
+.inputPass:focus-visible {
+    outline: none;
+}
+
+
+/* .form-control {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 14px 12px;
+}
+
+.form-control #MoTa {
+    padding: 0px 12px;
+}
+
+
+
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    font-size: 15px;
+    color: #031190;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    user-select: none;
+    color: #999;
+    pointer-events: none;
+    font-weight: 600;
+}
+
+.form-control:not(:placeholder-shown)+label,
+.form-control:focus+label {
+    color: #031190;
+    top: 0;
+    padding: 10px;
+    display: inline-block;
+    background-color: white;
+} */

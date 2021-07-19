@@ -4,7 +4,7 @@ function Validation() {
      */
     this.checkBlank = function(value, spanID) {
         if (!value) {
-            getEl(spanID).innerHTML = 'Vui lòng nhập thông tin';
+            getEl(spanID).innerHTML = '(*) Vui lòng nhập thông tin';
             return false;
         } else {
             getEl(spanID).innerHTML = '';
@@ -17,13 +17,13 @@ function Validation() {
      */
     this.checkAccount = function(data, value, spanID) {
         // Check trùng lặp
-        var isDuplicate = data.every(
-            (account) => {
-                return account.taiKhoan !== value;
-            }
-        )
+        var isDuplicate = data.every(function(account) {
+            return account.taiKhoan !== value;
+        });
+
+
         if (!isDuplicate) {
-            getEl(spanID).innerHTML = 'Tài khoản đã tồn tại';
+            getEl(spanID).innerHTML = '(*) Tài khoản đã tồn tại';
             return false;
         } else {
             getEl(spanID).innerHTML = '';
@@ -42,7 +42,7 @@ function Validation() {
             getEl(spanID).innerHTML = '';
             return true;
         } else {
-            getEl(spanID).innerHTML = 'Sai định dạng ' + specialNote + numberNote;
+            getEl(spanID).innerHTML = '(*) Sai định dạng ' + specialNote + numberNote;
             return false;
         }
     };
@@ -83,7 +83,7 @@ function Validation() {
             getEl(spanID).innerHTML = '';
             return true;
         } else {
-            getEl(spanID).innerHTML = 'Sai định dạng Email';
+            getEl(spanID).innerHTML = '(*) Sai định dạng Email';
             return false;
         }
     };
@@ -95,7 +95,7 @@ function Validation() {
             getEl(spanID).innerHTML = '';
             return true;
         } else {
-            getEl(spanID).innerHTML = 'Số ký tự vượt quá giới hạn cho phép';
+            getEl(spanID).innerHTML = '(*) Số ký tự vượt quá giới hạn cho phép';
             return false;
         }
     };
@@ -104,7 +104,7 @@ function Validation() {
      */
     this.checkSelect = function(value, spanID) {
         if (value == 'Chọn loại người dùng' || value == 'Chọn ngôn ngữ') {
-            getEl(spanID).innerHTML = 'Hãy chọn đối tượng';
+            getEl(spanID).innerHTML = '(*) Hãy chọn đối tượng';
             return false;
         } else {
             getEl(spanID).innerHTML = '';
