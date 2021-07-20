@@ -100,9 +100,7 @@ function resetNotifyInput() {
     getEl('#noteState').innerHTML = '';
 
 }
-// getEl('#btnTroVe').addEventListener('click', function() {
-//     resetNotifyInput();
-// });
+
 
 function addUser() {
     var account = getEl('#TaiKhoan').value;
