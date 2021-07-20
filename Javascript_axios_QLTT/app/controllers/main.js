@@ -81,12 +81,28 @@ getEl('#btnThemNguoiDung').addEventListener('click', function() {
     var modalFooter = getEl('.modal-footer');
     getEl('#formUser').reset();
     modalFooter.innerHTML =
-        `
-                         
+        `                  
         <button id = "btnThemMoi" class = "btn btn-primary" onclick = "addUser()">Thêm mới</button>
-        <button class = "btn btn-danger" data-dismiss="modal">Trờ về</button>
+        <button id="btnTroVe" class="btn btn-danger" data-dismiss="modal" onclick = "resetNotifyInput()">Trờ về</button>
+
         `;
 });
+
+function resetNotifyInput() {
+    getEl('#noteAcc').innerHTML = '';
+    getEl('#noteName').innerHTML = '';
+    getEl('#notePass').innerHTML = '';
+    getEl('#noteEmail').innerHTML = '';
+    getEl('#noteTypeUser').innerHTML = '';
+    getEl('#noteImage').innerHTML = '';
+    getEl('#noteLanguage').innerHTML = '';
+    getEl('#noteDescribe').innerHTML = '';
+    getEl('#noteState').innerHTML = '';
+
+}
+// getEl('#btnTroVe').addEventListener('click', function() {
+//     resetNotifyInput();
+// });
 
 function addUser() {
     var account = getEl('#TaiKhoan').value;
@@ -100,6 +116,8 @@ function addUser() {
 
     var user = new Users(account, name, passWord, email, typeUser, language, describe, picture);
     if (!checkValidation(validator, userData)) {
+        getEl('#noteState').innerHTML = 'Thêm mới thất bại!';
+        getEl('#noteState').style.color = 'red';
         return;
     } else {
         userService.addUser(user)
@@ -107,9 +125,13 @@ function addUser() {
                 getData();
                 setLocalStorage(user.data);
                 console.log('Thêm dữ liệu thành công');
-                getEl('#myModal .close').click();
+                // getEl('#myModal .close').click();
+                getEl('#noteState').innerHTML = 'Thêm mới thành công!';
+                getEl('#noteState').style.color = 'rgb(4, 156, 49)';
+
             })
             .catch(function(err) {
+
                 console.log('Thêm dữ liệu thất bại: ' + err);
             });
 
@@ -124,10 +146,12 @@ function deleteUserByID(id) {
     getEl('#del-user').addEventListener('click', function() {
         userService.deleteUser(id)
             .then(function(result) {
+                setLocalStorage(result.data);
                 console.log(id);
                 console.log('Xóa thành công id: ' + id);
                 getEl('#modal-confirm .close').click();
                 getData();
+
             }).catch(function(err) {
                 console.log('Xóa thất bai: ' + err);
                 console.log(id);
@@ -141,6 +165,7 @@ function deleteUserByID(id) {
  * Sửa data 
  */
 function loadDataByID(id) {
+    getEl('#TaiKhoan').readOnly = true;
     userService.loadDataID(id)
         .then(function(result) {
             console.log(result.data);
@@ -157,7 +182,7 @@ function loadDataByID(id) {
             var modalFooter = document.querySelector('.modal-footer');
             modalFooter.innerHTML = `
                 <button type="submit" class="btn btn-success" onclick = "updateDataByID('${result.data.id}')">Cập Nhật</button>
-                <button type="button" id ='' class="btn btn-danger" data-dismiss="modal">Trở Về</button>
+                <button id="" class="btn btn-danger" data-dismiss="modal" onclick = "resetNotifyInput()">Trờ về</button>
                 `;
             console.log('load thành công');
         }).catch(function(err) {
@@ -177,16 +202,24 @@ function updateDataByID(id) {
     var describe = getEl('#MoTa').value;
 
     var user = new Users(account, name, passWord, email, typeUser, language, describe, picture);
+    if (!checkValidation(validator, userData)) {
+        getEl('#noteState').innerHTML = 'Cập nhật thất bại!';
+        getEl('#noteState').style.color = 'red';
+        return;
+    } else {
+        userService.updateData(id, user)
+            .then(function(result) {
+                console.log('Cập nhật thành công');
+                // getEl('#myModal .close').click();
+                getEl('#noteState').innerHTML = 'Cập nhật thành công!';
+                getEl('#noteState').style.color = 'rgb(4, 156, 49)';
+                getData();
+            })
+            .catch(function(err) {
 
-    userService.updateData(id, user)
-        .then(function(result) {
-            console.log('Cập nhật thành công');
-            getEl('#myModal .close').click();
-            getData();
-        })
-        .catch(function(err) {
-            console.log('Cập nhật thất bại: ' + err);
-        });
+                console.log('Cập nhật thất bại: ' + err);
+            });
+    }
 }
 
 
@@ -203,7 +236,9 @@ function checkValidation(valid, data) {
     var language = getEl('#loaiNgonNgu').value;
     var describe = getEl('#MoTa').value;
     let isVal = true;
-    isVal &= valid.checkBlank(account, '#noteAcc') && valid.checkAccount(data, getEl('#TaiKhoan').value, '#noteAcc');
+    if (!(getEl('#TaiKhoan').readOnly)) {
+        isVal &= valid.checkBlank(account, '#noteAcc') && valid.checkAccount(data, getEl('#TaiKhoan').value, '#noteAcc');
+    }
     isVal &= valid.checkBlank(getEl('#MatKhau').value, '#notePass') && valid.checkPass(getEl('#MatKhau').value, '#notePass');
     isVal &= valid.checkBlank(getEl('#HoTen').value, '#noteName') && valid.checkName(getEl('#HoTen').value, '#noteName');
     isVal &= valid.checkBlank(getEl('#Email').value, '#noteEmail') && valid.checkEmail(getEl('#Email').value, '#noteEmail');
