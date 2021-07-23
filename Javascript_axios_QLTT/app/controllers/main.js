@@ -37,7 +37,7 @@ function renderData(arrUser) {
                 <td>${user.ngonNgu}</td>
                 <td>${user.loaiND}</td>
                 <td >
-                    <button class="btn btn-primary" onclick = "loadDataByID('${user.id}')" >Sửa</button>
+                    <button class="btn btn-success" onclick = "loadDataByID('${user.id}')" >Sửa</button>
                     <button class="btn btn-danger"  data-toggle="modal" data-target="#modal-confirm" onclick = "deleteUserByID('${user.id}')">Xóa</button>
                 </td>
             </tr>
@@ -82,7 +82,7 @@ getEl('#btnThemNguoiDung').addEventListener('click', function() {
     getEl('#formUser').reset();
     modalFooter.innerHTML =
         `                  
-        <button id = "btnThemMoi" class = "btn btn-primary" onclick = "addUser()">Thêm mới</button>
+        <button id = "btnThemMoi" class = "btn btn-success" onclick = "addUser()">Thêm mới</button>
         <button id="btnTroVe" class="btn btn-danger" data-dismiss="modal" onclick = "resetNotifyInput()">Trờ về</button>
 
         `;
@@ -98,6 +98,7 @@ function resetNotifyInput() {
     getEl('#noteLanguage').innerHTML = '';
     getEl('#noteDescribe').innerHTML = '';
     getEl('#noteState').innerHTML = '';
+    getEl('#TaiKhoan').readOnly = false;
 
 }
 
@@ -180,7 +181,7 @@ function loadDataByID(id) {
             var modalFooter = document.querySelector('.modal-footer');
             modalFooter.innerHTML = `
                 <button type="submit" class="btn btn-success" onclick = "updateDataByID('${result.data.id}')">Cập Nhật</button>
-                <button id="" class="btn btn-danger" data-dismiss="modal" onclick = "resetNotifyInput()">Trờ về</button>
+                <button id="" class="btn btn-danger"  data-dismiss="modal" onclick = "resetNotifyInput()">Trờ về</button>
                 `;
             console.log('load thành công');
         }).catch(function(err) {
